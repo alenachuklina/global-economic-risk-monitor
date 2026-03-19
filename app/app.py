@@ -3,8 +3,7 @@ import pandas as pd
 
 st.title("Global Economic Risk Monitor")
 
-url = "https://raw.githubusercontent.com/alenachuklina/global-economic-risk-monitor/main/data/merged_data.csv"
-df = pd.read_csv(url)
+df = pd.read_csv("data/merged_data.csv")
 
 df = df.dropna()
 
