@@ -9,14 +9,24 @@ df = pd.read_csv(url)
 df = df.dropna()
 
 countries = df["Country Name"].unique()
-country = st.selectbox("Select country", countries)
 
-df_country = df[df["Country Name"] == country]
+selected_countries = st.multiselect(
+    "Select countries",
+    countries,
+    default=["Spain", "Germany", "France"]
+)
+
+df_filtered = df[df["Country Name"].isin(selected_countries)]
 
 df_country = df_country.sort_values("year")
 
-st.subheader(f"GDP growth and Inflation — {country}")
+st.subheader("GDP growth and Inflation comparison")
 
-st.line_chart(
-    df_country.set_index("year")[["GDP_growth", "Inflation"]]
-)
+for country in selected_countries:
+    df_country = df_filtered[df_filtered["Country Name"] == country]
+    df_country = df_country.sort_values("year")
+
+    st.line_chart(
+        df_country.set_index("year")[["GDP_growth", "Inflation"]],
+        use_container_width=True
+    )
